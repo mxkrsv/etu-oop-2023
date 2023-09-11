@@ -22,7 +22,7 @@ type Matrix[N Numeric] struct {
 	rows []Row[N]
 }
 
-func ScanRow[N Numeric](s *bufio.Scanner) (Row[N], int, error) {
+func scanRow[N Numeric](s *bufio.Scanner) (Row[N], int, error) {
 	if !s.Scan() {
 		return nil, 0, s.Err()
 	}
@@ -45,7 +45,7 @@ func ScanRow[N Numeric](s *bufio.Scanner) (Row[N], int, error) {
 func (m *Matrix[N]) Read() error {
 	s := bufio.NewScanner(os.Stdin)
 
-	r, n, err := ScanRow[N](s)
+	r, n, err := scanRow[N](s)
 	if err != nil {
 		return err
 	}
@@ -55,7 +55,7 @@ func (m *Matrix[N]) Read() error {
 	m.size = n
 
 	for i := 1; i < m.size; i++ {
-		r, n, err = ScanRow[N](s)
+		r, n, err = scanRow[N](s)
 		if err != nil {
 			return err
 		}
