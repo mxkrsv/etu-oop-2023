@@ -13,8 +13,6 @@ type Numeric interface {
 	int | int8 | int16 | int32 | int64 | float32 | float64
 }
 
-//type Number[T numeric] T
-
 type Row[N Numeric] []N
 
 type Matrix[N Numeric] struct {
