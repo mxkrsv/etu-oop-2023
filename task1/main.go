@@ -2,11 +2,12 @@ package main
 
 import (
 	"bufio"
+	"github.com/mxkrsv/etu-oop-2023/task1/application"
 	"os"
 )
 
 func main() {
-	a := NewApplication[float64]()
+	a := application.NewApplication[float64]()
 	a.PrintUsage()
 
 	s := bufio.NewScanner(os.Stdin)

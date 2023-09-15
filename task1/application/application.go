@@ -1,8 +1,9 @@
-package main
+package application
 
 import (
 	"errors"
 	"fmt"
+	"github.com/mxkrsv/etu-oop-2023/task1/matrix"
 	"os"
 )
 
@@ -12,12 +13,12 @@ type command struct {
 	action func() error
 }
 
-type Application[N Numeric] struct {
+type Application[N matrix.Numeric] struct {
 	commands []command
-	matrix   Matrix[N]
+	matrix   matrix.Matrix[N]
 }
 
-func NewApplication[N Numeric]() Application[N] {
+func NewApplication[N matrix.Numeric]() Application[N] {
 	a := Application[N]{}
 	a.commands = []command{
 		{
