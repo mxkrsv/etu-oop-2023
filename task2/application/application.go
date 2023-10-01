@@ -3,8 +3,10 @@ package application
 import (
 	"errors"
 	"fmt"
-	"github.com/mxkrsv/etu-oop-2023/task2/matrix"
 	"os"
+
+	"github.com/mxkrsv/etu-oop-2023/task2/matrix"
+	"github.com/mxkrsv/etu-oop-2023/task2/numbers"
 )
 
 type command struct {
@@ -13,13 +15,13 @@ type command struct {
 	action func() error
 }
 
-type Application[N matrix.Numeric] struct {
+type Application[n numbers.StdlibNumeric, N numbers.CustomNumeric[n, N]] struct {
 	commands []command
-	matrix   matrix.Matrix[N]
+	matrix   matrix.Matrix[n, N]
 }
 
-func NewApplication[N matrix.Numeric]() Application[N] {
-	a := Application[N]{}
+func NewApplication[n numbers.StdlibNumeric, N numbers.CustomNumeric[n, N]]() Application[n, N] {
+	a := Application[n, N]{}
 	a.commands = []command{
 		{
 			name:   "read",
@@ -56,12 +58,12 @@ func NewApplication[N matrix.Numeric]() Application[N] {
 	return a
 }
 
-func (a Application[N]) Exit() error {
+func (a Application[n, N]) Exit() error {
 	os.Exit(0)
 	return nil
 }
 
-func (a Application[N]) PrintUsage() error {
+func (a Application[n, N]) PrintUsage() error {
 	_, err := fmt.Printf("Using type: %T\n", *new(N))
 	fmt.Println("----")
 	_, err = fmt.Println("Commands:")
@@ -81,7 +83,7 @@ func (a Application[N]) PrintUsage() error {
 	return nil
 }
 
-func (a Application[N]) DispatchCommand(c string) error {
+func (a Application[n, N]) DispatchCommand(c string) error {
 	for _, cmd := range a.commands {
 		if c == cmd.name {
 			err := cmd.action()
