@@ -15,7 +15,6 @@ type CustomNumeric[N StdlibNumeric, T any] interface {
 	Add(T) T
 	Sub(T) T
 	Mul(T) T
-	Div(T) T
 }
 /*
 func NewCustomNumeric[N StdlibNumeric, T CustomNumeric[N, T]]() T {

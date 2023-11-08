@@ -131,18 +131,21 @@ func (m *Matrix[n, N]) copyRowsCols(rows, cols []int) Matrix[n, N] {
 func (m *Matrix[n, N]) minor(rows, cols []int) (N, error) {
 	if len(rows) != len(cols) {
 		var zero N
+		zero = zero.New()
 		return zero, errors.New("minor: number of rows and columns don't match")
 	}
 	errorOutOfRange := errors.New("minor: index out of range")
 	for _, row := range rows {
 		if row >= m.size {
 			var zero N
+			zero = zero.New()
 			return zero, errorOutOfRange
 		}
 	}
 	for _, col := range cols {
 		if col >= m.size {
 			var zero N
+			zero = zero.New()
 			return zero, errorOutOfRange
 		}
 	}
@@ -152,6 +155,7 @@ func (m *Matrix[n, N]) minor(rows, cols []int) (N, error) {
 	d, err := minor.det()
 	if err != nil {
 		var zero N
+		zero = zero.New()
 		return zero, err
 	}
 
@@ -183,6 +187,7 @@ func (m *Matrix[n, N]) firstMinor(row, col int) (N, error) {
 func (m *Matrix[n, N]) det() (N, error) {
 	if m.size == 0 {
 		var zero N
+		zero = zero.New()
 		return zero, nil
 	}
 
@@ -196,14 +201,17 @@ func (m *Matrix[n, N]) det() (N, error) {
 	}
 
 	var d N
+	d = d.New()
 	for i := 0; i < m.size; i++ {
 		minor, err := m.firstMinor(0, i)
 		if err != nil {
 			var zero N
+			zero = zero.New()
 			return zero, err
 		}
 
 		var tmp N
+		tmp = tmp.New()
 		tmp.FromNumber(n(math.Pow(-1, float64(1+i+1))))
 		d.Add(tmp.Mul(m.rows[0][i].Mul(minor)))
 
@@ -249,6 +257,7 @@ func (m *Matrix[n, N]) rank(rows, cols []int) (int, error) {
 				}
 
 				var zero N
+				zero = zero.New()
 				if d != zero {
 					return m.rank(rr, cc)
 				}

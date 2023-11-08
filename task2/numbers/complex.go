@@ -50,9 +50,11 @@ func (c *Complex[T]) Sub(other *Complex[T]) *Complex[T] {
 }
 
 func (c *Complex[T]) Mul(other *Complex[T]) *Complex[T] {
-	return &Complex[T]{real: c.real * other.real, imaginary: c.imaginary * other.imaginary}
-}
+	var ret Complex[T]
+	ret = Complex[T]{
+		real:      c.real*other.real - c.imaginary*other.imaginary,
+		imaginary: c.real*other.imaginary + c.imaginary*other.real,
+	}
 
-func (c *Complex[T]) Div(other *Complex[T]) *Complex[T] {
-	return &Complex[T]{real: c.real / other.real, imaginary: c.imaginary / other.imaginary}
+	return &ret
 }
