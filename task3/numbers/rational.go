@@ -20,7 +20,7 @@ func (r *Rational[T]) reduce() {
 }
 
 func (r *Rational[T]) FromString(s string) {
-	_, err := fmt.Sscanf(s, "%d%d", &r.numerator, &r.denominator)
+	_, err := fmt.Sscanf(s, "%d/%d", &r.numerator, &r.denominator)
 	if err != nil {
 		panic(err)
 	}
@@ -44,9 +44,9 @@ func (r *Rational[T]) String() string {
 }
 
 func gcd[T StdlibIntegers](a, b T) T {
-	if a == 1 {
+	if a == 1 || a == 0 {
 		return b
-	} else if b == 1 {
+	} else if b == 1 || b == 0 {
 		return a
 	} else if a >= b {
 		return gcd(a%b, b)
@@ -69,7 +69,7 @@ func lcm[T StdlibIntegers](a, b T) T {
 func (r *Rational[T]) Add(other *Rational[T]) *Rational[T] {
 	cm := lcm(r.denominator, other.denominator)
 	rr := Rational[T]{
-		numerator:   r.numerator*(r.denominator/cm) + other.numerator*(other.denominator/cm),
+		numerator:   r.numerator*(cm/r.denominator) + other.numerator*(cm/other.denominator),
 		denominator: cm,
 	}
 	rr.reduce()
@@ -88,8 +88,10 @@ func (r *Rational[T]) Sub(other *Rational[T]) *Rational[T] {
 }
 
 func (r *Rational[T]) Mul(other *Rational[T]) *Rational[T] {
-	return &Rational[T]{
+	rr := Rational[T]{
 		numerator:   r.numerator * other.numerator,
 		denominator: r.denominator * other.denominator,
 	}
+	rr.reduce()
+	return &rr
 }
