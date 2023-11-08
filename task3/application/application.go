@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/mxkrsv/etu-oop-2023/task2/matrix"
-	"github.com/mxkrsv/etu-oop-2023/task2/numbers"
+	"github.com/mxkrsv/etu-oop-2023/task3/matrix"
+	"github.com/mxkrsv/etu-oop-2023/task3/numbers"
 )
 
 type command struct {

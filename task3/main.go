@@ -4,8 +4,8 @@ import (
 	"bufio"
 	"os"
 
-	"github.com/mxkrsv/etu-oop-2023/task2/application"
-	"github.com/mxkrsv/etu-oop-2023/task2/numbers"
+	"github.com/mxkrsv/etu-oop-2023/task3/application"
+	"github.com/mxkrsv/etu-oop-2023/task3/numbers"
 )
 
 func main() {

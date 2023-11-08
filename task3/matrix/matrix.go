@@ -8,7 +8,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/mxkrsv/etu-oop-2023/task2/numbers"
+	"github.com/mxkrsv/etu-oop-2023/task3/numbers"
 )
 
 type Row[n numbers.StdlibNumeric, N numbers.CustomNumeric[n, N]] []N
