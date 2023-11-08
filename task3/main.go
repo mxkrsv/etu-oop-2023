@@ -4,12 +4,12 @@ import (
 	"bufio"
 	"os"
 
-	"github.com/mxkrsv/etu-oop-2023/task3/application"
+	"github.com/mxkrsv/etu-oop-2023/task3/application/cli"
 	"github.com/mxkrsv/etu-oop-2023/task3/numbers"
 )
 
 func main() {
-	a := application.NewApplication[int32, *numbers.Rational[int32]]()
+	a := cli.NewApplication[int32, *numbers.Rational[int32]]()
 	a.PrintUsage()
 
 	s := bufio.NewScanner(os.Stdin)
