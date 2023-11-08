@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	a := application.NewApplication[int32, *numbers.Complex[int32]]()
+	a := application.NewApplication[int32, *numbers.Rational[int32]]()
 	a.PrintUsage()
 
 	s := bufio.NewScanner(os.Stdin)
