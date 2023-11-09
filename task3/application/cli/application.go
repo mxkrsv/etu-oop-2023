@@ -37,8 +37,8 @@ func NewApplication[n numbers.StdlibNumeric, N numbers.CustomNumeric[n, N]]() Ap
 				if err != nil {
 					return err
 				}
-				fmt.Printf("%v\n", det)
-				return nil
+				_, err = fmt.Printf("%v\n", det)
+				return err
 			},
 		},
 		{
@@ -49,8 +49,8 @@ func NewApplication[n numbers.StdlibNumeric, N numbers.CustomNumeric[n, N]]() Ap
 				if err != nil {
 					return err
 				}
-				a.matrix.Print()
-				return nil
+				_, err = fmt.Printf("%v\n", a.matrix)
+				return err
 			},
 		},
 		{
@@ -61,28 +61,29 @@ func NewApplication[n numbers.StdlibNumeric, N numbers.CustomNumeric[n, N]]() Ap
 				if err != nil {
 					return err
 				}
-				fmt.Printf("%v\n", rank)
-				return nil
+				_, err = fmt.Printf("%v\n", rank)
+				return err
 			},
 		},
 		{
-			name:   "print",
-			desc:   "Print a matrix to the terminal",
-			action: a.matrix.Print,
+			name: "print",
+			desc: "Print a matrix to the terminal",
+			action: func() error {
+				_, err := fmt.Printf("%v\n", a.matrix)
+				return err
+			},
 		},
 		{
 			name:   "exit",
 			desc:   "Exit from the application",
-			action: a.Exit,
+			action: func() error {
+				os.Exit(0)
+				return nil
+			},
 		},
 	}
 
 	return a
-}
-
-func (a Application[n, N]) Exit() error {
-	os.Exit(0)
-	return nil
 }
 
 func (a Application[n, N]) PrintUsage() error {
