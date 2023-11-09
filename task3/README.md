@@ -1,8 +1,24 @@
-# Work 2
+# Work 3
 
-It's the same as task 2, but uses custom imaginary number implementation
-for matrix elements.
+Like the task 2, but with rational fractions and,
+most importantly, **GUI**.
 
+# How to run
+
+1. Via Nix (flakes enabled)
+```ShellSession
+$ nix develop
+$ go run .
+```
+
+2. Whatever else
+First, install required C libraries
+(see https://github.com/diamondburned/gotk4-examples#installing-gtk)
+
+Then, again,
 ```ShellSession
 $ go run .
 ```
+
+If some garbage collector warnings arise,
+just ignore them and pass whatever environment varialbe it will ask for.
