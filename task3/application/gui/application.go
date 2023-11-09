@@ -1,6 +1,7 @@
 package gui
 
 import (
+	"fmt"
 	"os"
 	"strings"
 
@@ -47,6 +48,12 @@ func (a Application[n, N]) activate() {
 	btnTranspose := gtk.NewButtonWithLabel("Transpose")
 	box2.Append(btnTranspose)
 
+	btnDet := gtk.NewButtonWithLabel("Det")
+	box2.Append(btnDet)
+
+	btnRank := gtk.NewButtonWithLabel("Rank")
+	box2.Append(btnRank)
+
 	box1.Append(box2)
 
 	box1.SetMarginTop(10)
@@ -54,22 +61,50 @@ func (a Application[n, N]) activate() {
 	box1.SetMarginStart(10)
 	box1.SetMarginEnd(10)
 
-	readStatusLabel := gtk.NewLabel("")
-	box2.Append(readStatusLabel)
+	statusLabel := gtk.NewLabel("")
+	box1.Append(statusLabel)
 
 	buffer := textView.Buffer()
 	btnReadMatrix.ConnectClicked(func() {
 		s := buffer.Text(buffer.IterAtOffset(0), buffer.EndIter(), false)
 		err := a.matrix.Read(strings.NewReader(s))
 		if err != nil {
-			readStatusLabel.SetLabel(err.Error())
+			statusLabel.SetLabel(err.Error())
 		}
-		readStatusLabel.SetLabel("matrix read successfully")
+		statusLabel.SetLabel("matrix read successfully")
 	})
 
 	btnTranspose.ConnectClicked(func() {
-		//transposed := matrix.Matrix[n, N]{}
-		//buffer.SetText(a.matrix.Transpose())
+		err := a.matrix.Transpose()
+		if err != nil {
+			panic(err)
+		}
+
+		s, err := a.matrix.String()
+		if err != nil {
+			panic(err)
+		}
+
+		buffer.SetText(s)
+		statusLabel.SetLabel("matrix transposed successfully")
+	})
+
+	btnDet.ConnectClicked(func() {
+		det, err := a.matrix.Det()
+		if err != nil {
+			panic(err)
+		}
+
+		statusLabel.SetLabel(fmt.Sprintf("determinant: %v", det))
+	})
+
+	btnRank.ConnectClicked(func() {
+		rank, err := a.matrix.Rank()
+		if err != nil {
+			panic(err)
+		}
+
+		statusLabel.SetLabel(fmt.Sprintf("rank: %v", rank))
 	})
 
 	window.Show()
