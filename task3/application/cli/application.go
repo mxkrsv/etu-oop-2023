@@ -1,10 +1,10 @@
 package cli
 
 import (
+	"bufio"
 	"errors"
 	"fmt"
 	"os"
-	"bufio"
 
 	"github.com/mxkrsv/etu-oop-2023/task3/matrix"
 	"github.com/mxkrsv/etu-oop-2023/task3/numbers"
@@ -30,19 +30,40 @@ func NewApplication[n numbers.StdlibNumeric, N numbers.CustomNumeric[n, N]]() Ap
 			action: func() error { return a.matrix.Read(os.Stdin) },
 		},
 		{
-			name:   "det",
-			desc:   "Calculate and print the determinant of a matrix",
-			action: a.matrix.Det,
+			name: "det",
+			desc: "Calculate and print the determinant of a matrix",
+			action: func() error {
+				det, err := a.matrix.Det()
+				if err != nil {
+					return err
+				}
+				fmt.Printf("%v\n", det)
+				return nil
+			},
 		},
 		{
-			name:   "transpose",
-			desc:   "Calculate and print the transpose of a matrix",
-			action: a.matrix.Transpose,
+			name: "transpose",
+			desc: "Calculate and print the transpose of a matrix",
+			action: func() error {
+				err := a.matrix.Transpose()
+				if err != nil {
+					return err
+				}
+				a.matrix.Print()
+				return nil
+			},
 		},
 		{
-			name:   "rank",
-			desc:   "Calculate and print the rank of a matrix",
-			action: a.matrix.Rank,
+			name: "rank",
+			desc: "Calculate and print the rank of a matrix",
+			action: func() error {
+				rank, err := a.matrix.Rank()
+				if err != nil {
+					return err
+				}
+				fmt.Printf("%v\n", rank)
+				return nil
+			},
 		},
 		{
 			name:   "print",
