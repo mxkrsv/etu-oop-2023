@@ -223,18 +223,13 @@ func (m *Matrix[n, N]) det() (N, error) {
 	return d, nil
 }
 
-func (m *Matrix[n, N]) Det() error {
+func (m *Matrix[n, N]) Det() (N, error) {
 	d, err := m.det()
 	if err != nil {
-		return err
+		return d, err
 	}
 
-	_, err = fmt.Printf("%v\n", d)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return d, nil
 }
 
 func (m *Matrix[n, N]) rank(rows, cols []int) (int, error) {
@@ -268,18 +263,13 @@ func (m *Matrix[n, N]) rank(rows, cols []int) (int, error) {
 	return len(rows), nil
 }
 
-func (m *Matrix[n, N]) Rank() error {
+func (m *Matrix[n, N]) Rank() (n, error) {
 	r, err := m.rank([]int{}, []int{})
 	if err != nil {
-		return err
+		return 0, err
 	}
 
-	_, err = fmt.Printf("%v\n", r)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return n(r), nil
 }
 
 func (m *Matrix[n, N]) copy() Matrix[n, N] {
@@ -295,17 +285,13 @@ func (m *Matrix[n, N]) copy() Matrix[n, N] {
 }
 
 func (m *Matrix[n, N]) Transpose() error {
-	t := m.copy()
-
 	for i := 0; i < m.size; i++ {
 		for j := 0; j < m.size; j++ {
 			if i > j {
-				t.rows[i][j], t.rows[j][i] = t.rows[j][i], t.rows[i][j]
+				m.rows[i][j], m.rows[j][i] = m.rows[j][i], m.rows[i][j]
 			}
 		}
 	}
-
-	t.Print()
 
 	return nil
 }
