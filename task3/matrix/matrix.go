@@ -73,24 +73,30 @@ func (m *Matrix[n, N]) Read(reader io.Reader) error {
 	return nil
 }
 
-func (m *Matrix[n, N]) Print() error {
+func (m *Matrix[n, N]) String() (string, error) {
+	sb := strings.Builder{}
+
 	for _, r := range m.rows {
 		var sep byte
+		var newline byte
+
+		err := sb.WriteByte(newline)
+		if err != nil {
+			return "", err
+		}
+
 		for _, n := range r {
-			_, err := fmt.Printf("%c%v", sep, n)
-			//_, err := fmt.Printf("%c%T", sep, n)
+			_, err = sb.WriteString(fmt.Sprintf("%c%v", sep, n))
 			if err != nil {
-				return err
+				return "", err
 			}
 			sep = ' '
 		}
-		_, err := fmt.Printf("\n")
-		if err != nil {
-			return err
-		}
+
+		newline = '\n'
 	}
 
-	return nil
+	return sb.String(), nil
 }
 
 func isElement[E comparable](e E, s []E) bool {
