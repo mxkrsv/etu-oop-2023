@@ -4,8 +4,8 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
+	"io"
 	"math"
-	"os"
 	"strings"
 
 	"github.com/mxkrsv/etu-oop-2023/task3/numbers"
@@ -46,8 +46,8 @@ func scanRow[n numbers.StdlibNumeric, N numbers.CustomNumeric[n, N]](s *bufio.Sc
 	return values, len(values), nil
 }
 
-func (m *Matrix[n, N]) Read() error {
-	s := bufio.NewScanner(os.Stdin)
+func (m *Matrix[n, N]) Read(reader io.Reader) error {
+	s := bufio.NewScanner(reader)
 
 	r, cnt, err := scanRow[n, N](s)
 	if err != nil {
