@@ -76,24 +76,26 @@ func (m *Matrix[n, N]) Read(reader io.Reader) error {
 func (m *Matrix[n, N]) String() (string, error) {
 	sb := strings.Builder{}
 
-	for _, r := range m.rows {
-		var sep byte
-		var newline byte
+	for i, r := range m.rows {
+		var err error
 
-		err := sb.WriteByte(newline)
-		if err != nil {
-			return "", err
-		}
-
-		for _, n := range r {
-			_, err = sb.WriteString(fmt.Sprintf("%c%v", sep, n))
+		if i != 0 {
+			err = sb.WriteByte('\n')
 			if err != nil {
 				return "", err
 			}
-			sep = ' '
 		}
 
-		newline = '\n'
+		for j, n := range r {
+			if j == 0 {
+				_, err = sb.WriteString(fmt.Sprintf("%v", n))
+			} else {
+				_, err = sb.WriteString(fmt.Sprintf(" %v", n))
+			}
+			if err != nil {
+				return "", err
+			}
+		}
 	}
 
 	return sb.String(), nil
