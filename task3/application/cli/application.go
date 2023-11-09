@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"bufio"
 
 	"github.com/mxkrsv/etu-oop-2023/task3/matrix"
 	"github.com/mxkrsv/etu-oop-2023/task3/numbers"
@@ -26,7 +27,7 @@ func NewApplication[n numbers.StdlibNumeric, N numbers.CustomNumeric[n, N]]() Ap
 		{
 			name:   "read",
 			desc:   "Read a matrix from the terminal",
-			action: a.matrix.Read,
+			action: func() error { return a.matrix.Read(os.Stdin) },
 		},
 		{
 			name:   "det",
@@ -95,4 +96,19 @@ func (a Application[n, N]) DispatchCommand(c string) error {
 	}
 
 	return errors.New("unknown command")
+}
+
+func (a Application[n, N]) Run() {
+	a.PrintUsage()
+
+	s := bufio.NewScanner(os.Stdin)
+	os.Stdout.WriteString("> ")
+	for s.Scan() {
+		err := a.DispatchCommand(s.Text())
+		if err != nil {
+			panic(err)
+		}
+
+		os.Stdout.WriteString("> ")
+	}
 }
